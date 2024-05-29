@@ -5,7 +5,6 @@
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
-
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<BuildOutputTargetFolder>analyzers</BuildOutputTargetFolder>
 		<IncludeBuildOutput>false</IncludeBuildOutput>

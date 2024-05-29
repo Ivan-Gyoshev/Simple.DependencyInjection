@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoServiceRegistry", "Auto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoServiceRegistry.Generator", "..\AutoServiceRegistry.Generator\AutoServiceRegistry.Generator.csproj", "{4C4331E9-CCA1-4470-8DEB-83ED69B303B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoServiceRegistry.Playground", "..\AutoServiceRegistry.Playground\AutoServiceRegistry.Playground.csproj", "{C30AB688-E43B-4635-A322-3154530FED29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoServiceRegistry.Tests", "..\AutoServiceRegistry.Tests\AutoServiceRegistry.Tests.csproj", "{61805C1C-997F-4354-A71B-56C887BAEE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{4C4331E9-CCA1-4470-8DEB-83ED69B303B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4331E9-CCA1-4470-8DEB-83ED69B303B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C4331E9-CCA1-4470-8DEB-83ED69B303B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C30AB688-E43B-4635-A322-3154530FED29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C30AB688-E43B-4635-A322-3154530FED29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C30AB688-E43B-4635-A322-3154530FED29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C30AB688-E43B-4635-A322-3154530FED29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61805C1C-997F-4354-A71B-56C887BAEE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61805C1C-997F-4354-A71B-56C887BAEE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61805C1C-997F-4354-A71B-56C887BAEE63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61805C1C-997F-4354-A71B-56C887BAEE63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

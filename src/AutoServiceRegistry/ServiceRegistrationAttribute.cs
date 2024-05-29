@@ -5,10 +5,9 @@ namespace AutoServiceRegistry;
 /// <summary>
 ///     Specifies how a service would be registered inside the IoC container.
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class ServiceRegistrationAttribute : Attribute
 {
-    [AllowedValues(Lifetime.Transient)]
     private readonly string _serviceLifetime;
     private readonly string _serviceInterface;
 
@@ -17,6 +16,9 @@ public sealed class ServiceRegistrationAttribute : Attribute
     /// </summary>
     /// <param name="serviceLifetime">
     ///     Value that indicates the lifetime of the service that is going to be registered.
+    /// </param>
+    /// <param name="implementationOf">
+    ///     Value that points to the interface that the service is implementing
     /// </param>
     public ServiceRegistrationAttribute(string serviceLifetime, string implementationOf = "")
     {
@@ -27,7 +29,7 @@ public sealed class ServiceRegistrationAttribute : Attribute
     /// <summary>
     ///     Gets the value that indicates the lifetime of the service that is going to be registered.
     /// </summary>
-    public string Value { get { return _serviceLifetime; } }
+    public string ServiceLifetime { get { return _serviceLifetime; } }
 
     /// <summary>
     ///     Gets the type of the interface that the service is implementing. (nullable)

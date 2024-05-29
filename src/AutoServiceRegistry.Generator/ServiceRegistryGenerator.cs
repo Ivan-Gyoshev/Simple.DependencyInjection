@@ -25,7 +25,6 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 
     private void Execute(SourceProductionContext context, ImmutableArray<Target> args)
     {
-
         context.CancellationToken.ThrowIfCancellationRequested();
 
         StringBuilder registryBuilder = new();
@@ -35,7 +34,7 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AutoServiceRegistry.Generator
+namespace AutoServiceRegistry
 {{
     public static class ServiceRegistrator
     {{
@@ -61,27 +60,34 @@ namespace AutoServiceRegistry.Generator
 
     private static Target GetTarget(GeneratorSyntaxContext generatorContext, CancellationToken token)
     {
-        ClassDeclarationSyntax syntax = (ClassDeclarationSyntax)generatorContext.Node;
-        ISymbol symbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
-
-        if (symbol.IsAbstract is false)
+        try
         {
-            AttributeData attribute = symbol.GetAttributes().Where(atr => atr.AttributeClass.Name.Equals(_attributeName)).SingleOrDefault();
+            ClassDeclarationSyntax syntax = (ClassDeclarationSyntax)generatorContext.Node;
+            ISymbol symbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
 
-            if (attribute is not null)
+            if (symbol.IsAbstract is false)
             {
-                ImmutableArray<TypedConstant> attributeValues = attribute.ConstructorArguments;
-                TypedConstant lifetime = attributeValues[0];
-                TypedConstant serviceInterface = attributeValues[1];
+                AttributeData attribute = symbol.GetAttributes().Where(atr => atr.AttributeClass.Name.Equals(_attributeName)).SingleOrDefault();
 
-                string interfaceName, interfacePath;
-                TryFindInterfaceData(generatorContext, serviceInterface, out interfaceName, out interfacePath);
+                if (attribute is not null)
+                {
+                    ImmutableArray<TypedConstant> attributeValues = attribute.ConstructorArguments;
+                    TypedConstant lifetime = attributeValues[0];
+                    TypedConstant serviceInterface = attributeValues[1];
 
-                return new Target((string)lifetime.Value, symbol.Name, symbol.ContainingNamespace.ToDisplayString(), interfaceName, interfacePath);
+                    string interfaceName, interfacePath;
+                    TryFindInterfaceData(generatorContext, serviceInterface, out interfaceName, out interfacePath);
+
+                    return new Target((string)lifetime.Value, symbol.Name, symbol.ContainingNamespace.ToDisplayString(), interfaceName, interfacePath);
+                }
             }
-        }
+            return Target.Invalid;
 
-        return Target.Invalid;
+        }
+        catch (Exception)
+        {
+            return Target.Invalid;
+        }
     }
 
     private static void TryFindInterfaceData(GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface, out string interfaceName, out string interfacePath)
@@ -94,11 +100,17 @@ namespace AutoServiceRegistry.Generator
             string i_name = (string)serviceInterface.Value;
 
             IEnumerable<InterfaceDeclarationSyntax> ifaces = generatorContext.SemanticModel.Compilation.SyntaxTrees.SelectMany(x => x.GetRoot().DescendantNodes().OfType<InterfaceDeclarationSyntax>());
-            InterfaceDeclarationSyntax match = ifaces.Where(x => x.Identifier.Text.Equals(i_name)).Single();
-            NamespaceDeclarationSyntax namespaceSyntax = match.Ancestors().OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
+            InterfaceDeclarationSyntax match = ifaces.Where(x => x.Identifier.Text.Equals(i_name)).FirstOrDefault();
+
+            if (match is not null)
+            {
+                NamespaceDeclarationSyntax namespaceSyntax = match.Ancestors().OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
+
+                if (namespaceSyntax is not null)
+                    interfacePath = namespaceSyntax.Name.ToString();
+            }
 
             interfaceName = i_name;
-            interfacePath = namespaceSyntax.Name.ToString();
         }
     }
 

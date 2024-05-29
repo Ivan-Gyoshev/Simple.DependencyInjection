@@ -4,8 +4,17 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageId>$(AssemblyName)</PackageId>
 		<Title>AutoServiceRegistry</Title>
+		<Description>Source generator based registration of services inside the IoC container.</Description>
+		<OutputType>Library</OutputType>
+		<Authors>Ivan Gyoshev</Authors>
+		<PackageTags>C#,ASP.NET Core, Worker Service, Dependency Injection</PackageTags>
+		<RepositoryUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</PackageProjectUrl>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,7 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\AutoServiceRegistry.Generator\bin\$(Configuration)\netstandard2.0\AutoServiceRegistry.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+		<None Include="..\AutoServiceRegistry.Generator\bin\$(Configuration)\netstandard2.0\AutoServiceRegistry.Generator.dll"
+			  Pack="true"
+			  PackagePath="analyzers/dotnet/cs"
+			  Visible="false" />
 	</ItemGroup>
 
 </Project>
