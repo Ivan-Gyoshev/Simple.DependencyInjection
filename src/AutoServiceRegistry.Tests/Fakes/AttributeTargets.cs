@@ -1,59 +1,58 @@
-﻿namespace AutoServiceRegistry.Tests.Fakes
+﻿namespace AutoServiceRegistry.Tests.Fakes;
+
+[ServiceRegistration(Lifetime.Transient)]
+public class TransientAttributeTarget
 {
-    [ServiceRegistration(Lifetime.Transient)]
-    public class TransientAttributeTarget
-    {
-    }
+}
 
-    [ServiceRegistration(Lifetime.Scoped)]
-    public class ScopedAttributeTarget
-    {
-    }
+[ServiceRegistration(Lifetime.Scoped)]
+public class ScopedAttributeTarget
+{
+}
 
-    [ServiceRegistration(Lifetime.Singleton)]
-    public class SingletonAttributeTarget
-    {
-    }
+[ServiceRegistration(Lifetime.Singleton)]
+public class SingletonAttributeTarget
+{
+}
 
-    [ServiceRegistration(Lifetime.Scoped, nameof(ITransientTarget))]
-    public class TransientAttributeTargetImplementation : ITransientTarget
+[ServiceRegistration(Lifetime.Transient, nameof(ITransientTarget))]
+public class TransientAttributeTargetImplementation : ITransientTarget
+{
+    public bool ReturnTrue()
     {
-        public bool ReturnTrue()
-        {
-            return true;
-        }
+        return true;
     }
+}
 
-    [ServiceRegistration(Lifetime.Scoped, nameof(IScopedTarget))]
-    public class ScopedAttributeTargetImplementation : IScopedTarget
+[ServiceRegistration(Lifetime.Scoped, nameof(IScopedTarget))]
+public class ScopedAttributeTargetImplementation : IScopedTarget
+{
+    public bool ReturnTrue()
     {
-        public bool ReturnTrue()
-        {
-            return true;
-        }
+        return true;
     }
+}
 
-    [ServiceRegistration(Lifetime.Singleton, nameof(ISingletonTarget))]
-    public class SingletonAttributeTargetImplementation : ISingletonTarget
+[ServiceRegistration(Lifetime.Singleton, nameof(ISingletonTarget))]
+public class SingletonAttributeTargetImplementation : ISingletonTarget
+{
+    public bool ReturnTrue()
     {
-        public bool ReturnTrue()
-        {
-            return true;
-        }
+        return true;
     }
+}
 
-    public interface ITransientTarget
-    {
-        public bool ReturnTrue();
-    }
+public interface ITransientTarget
+{
+    public bool ReturnTrue();
+}
 
-    public interface IScopedTarget
-    {
-        public bool ReturnTrue();
-    }
+public interface IScopedTarget
+{
+    public bool ReturnTrue();
+}
 
-    public interface ISingletonTarget
-    {
-        public bool ReturnTrue();
-    }
+public interface ISingletonTarget
+{
+    public bool ReturnTrue();
 }
