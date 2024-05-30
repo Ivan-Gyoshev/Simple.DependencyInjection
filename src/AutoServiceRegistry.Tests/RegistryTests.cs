@@ -10,7 +10,7 @@ public class RegistryTests
     public void ShouldContainRegisteredService()
     {
         IServiceCollection services = new ServiceCollection();
-        services.AddRegistry();
+        services.UseAutoServiceRegistration();
 
         DefaultServiceProviderFactory serviceProviderFactory = new DefaultServiceProviderFactory();
         IServiceCollection builder = serviceProviderFactory.CreateBuilder(services);

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AutoServiceRegistry;
+﻿namespace AutoServiceRegistry;
 
 /// <summary>
 ///     Specifies how a service would be registered inside the IoC container.

@@ -3,23 +3,23 @@
 namespace AutoServiceRegistry;
 
 /// <summary>
-/// Represents the service lifetime that will be used when adding
-/// the service to the IoC Container
+/// Represents the service lifetime that will be used when registering
+/// the class to the IoC Container.
 /// </summary>
 public readonly record struct Lifetime
 {
     /// <summary>
-    /// Represents a Transient service lifetime.
+    /// Represents a <see cref="ServiceLifetime.Transient"/> service lifetime.
     /// </summary>
     public const string Transient = nameof(ServiceLifetime.Transient);
 
     /// <summary>
-    /// Represents a Scoped service lifetime.
+    /// Represents a <see cref="ServiceLifetime.Scoped"/> service lifetime.
     /// </summary>
     public const string Scoped = nameof(ServiceLifetime.Scoped);
 
     /// <summary>
-    /// Represents a Singleton service lifetime.
+    /// Represents a <see cref="ServiceLifetime.Singleton"/> service lifetime.
     /// </summary>
     public const string Singleton = nameof(ServiceLifetime.Singleton);
 }
