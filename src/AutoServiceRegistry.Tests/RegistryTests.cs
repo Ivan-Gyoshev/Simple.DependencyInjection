@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using AutoServiceRegistry.Generator;
 using AutoServiceRegistry.Tests.Fakes;
 
 namespace AutoServiceRegistry.Tests;

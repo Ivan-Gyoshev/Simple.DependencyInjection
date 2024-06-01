@@ -98,45 +98,44 @@ namespace AutoServiceRegistry
         }
     }
 
-    private static void TryFindInterfaceData(GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface, out string interfaceName, out string interfacePath)
+    private static bool TryFindInterfaceData(GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface, out string interfaceName, out string interfacePath)
     {
         interfaceName = string.Empty;
         interfacePath = string.Empty;
 
         if (string.IsNullOrEmpty((string)serviceInterface.Value) is false)
         {
-            string i_name = (string)serviceInterface.Value;
+            interfaceName = (string)serviceInterface.Value;
 
-            IEnumerable<InterfaceDeclarationSyntax> ifaces = generatorContext.SemanticModel.Compilation.SyntaxTrees.SelectMany(x => x.GetRoot().DescendantNodes().OfType<InterfaceDeclarationSyntax>());
-            InterfaceDeclarationSyntax match = ifaces.Where(x => x.Identifier.Text.Equals(i_name)).FirstOrDefault();
+            INamedTypeSymbol @interface = FindInterfaceInNamespace(generatorContext.SemanticModel.Compilation.GlobalNamespace, interfaceName);
 
-            interfacePath = ParseInterfacePath(match);
+            interfacePath = @interface.ContainingNamespace.ToDisplayString();
 
-            interfaceName = i_name;
+            return true;
         }
+
+        return false;
     }
 
-    private static string ParseInterfacePath(InterfaceDeclarationSyntax match)
+    private static INamedTypeSymbol FindInterfaceInNamespace(INamespaceSymbol namespaceSymbol, string interfaceName)
     {
-        string path = string.Empty;
-
-        if (match is not null)
+        foreach (var member in namespaceSymbol.GetMembers())
         {
-            NamespaceDeclarationSyntax namespaceSyntax = match.Ancestors().OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
-
-            if (namespaceSyntax is not null)
+            if (member is INamespaceSymbol nestedNamespace)
             {
-                path = namespaceSyntax.Name.ToString();
+                INamedTypeSymbol result = FindInterfaceInNamespace(nestedNamespace, interfaceName);
+                if (result is not null)
+                {
+                    return result;
+                }
             }
-            else
+            else if (member is INamedTypeSymbol typeSymbol && typeSymbol.TypeKind == TypeKind.Interface && typeSymbol.Name == interfaceName)
             {
-                FileScopedNamespaceDeclarationSyntax filedNamespaceSyntax = match.Ancestors().OfType<FileScopedNamespaceDeclarationSyntax>().FirstOrDefault();
-                if (filedNamespaceSyntax is not null)
-                    path = filedNamespaceSyntax.Name.ToString();
+                return typeSymbol;
             }
         }
 
-        return path;
+        return default;
     }
 
     private static string BuildServiceDescriptor(Target target)

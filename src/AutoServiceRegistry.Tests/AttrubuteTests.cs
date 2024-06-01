@@ -1,3 +1,4 @@
+using AutoServiceRegistry.Tests.Contracts;
 using AutoServiceRegistry.Tests.Fakes;
 using System.Reflection;
 

@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\AutoServiceRegistry.Tests.Contracts\AutoServiceRegistry.Tests.Contracts.csproj" />
 		<ProjectReference Include="..\AutoServiceRegistry\AutoServiceRegistry.csproj" />
 		<ProjectReference Include="..\AutoServiceRegistry.Generator\AutoServiceRegistry.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	</ItemGroup>

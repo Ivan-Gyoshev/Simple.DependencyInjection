@@ -1,4 +1,6 @@
-﻿namespace AutoServiceRegistry.Tests.Fakes;
+﻿using AutoServiceRegistry.Tests.Contracts;
+
+namespace AutoServiceRegistry.Tests.Fakes;
 
 [ServiceRegistration(Lifetime.Transient)]
 public class TransientAttributeTarget
@@ -40,19 +42,4 @@ public class SingletonAttributeTargetImplementation : ISingletonTarget
     {
         return true;
     }
-}
-
-public interface ITransientTarget
-{
-    public bool ReturnTrue();
-}
-
-public interface IScopedTarget
-{
-    public bool ReturnTrue();
-}
-
-public interface ISingletonTarget
-{
-    public bool ReturnTrue();
 }
