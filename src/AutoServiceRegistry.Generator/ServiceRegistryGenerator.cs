@@ -15,10 +15,9 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
     {
         IncrementalValuesProvider<Target> services = context.SyntaxProvider.CreateSyntaxProvider
            (
-            predicate: static (syntaxNode, _) => IsTarget(syntaxNode),
+            predicate: static (syntaxNode, _) => syntaxNode.IsClassDeclaration(),
             transform: (generatorContext, cn) => GetTarget(generatorContext, cn)
-           ).Where(static target => string.IsNullOrEmpty(target.Lifetime) is false
-                                 && string.IsNullOrEmpty(target.ServiceName) is false);
+           ).Where(static target => target.IsValid);
 
         context.RegisterSourceOutput(services.Collect(), Execute);
     }
@@ -45,7 +44,7 @@ namespace AutoServiceRegistry
 ");
             foreach (Target target in args)
             {
-                registryBuilder.AppendLine(BuildServiceDescriptor(target));
+                registryBuilder.AppendLine(target.TransformToServiceDescriptor());
             }
 
             registryBuilder.Append(@$"
@@ -64,8 +63,6 @@ namespace AutoServiceRegistry
         }
     }
 
-    private static bool IsTarget(SyntaxNode node) => node is ClassDeclarationSyntax;
-
     private static Target GetTarget(GeneratorSyntaxContext generatorContext, CancellationToken token)
     {
         try
@@ -83,10 +80,9 @@ namespace AutoServiceRegistry
                     TypedConstant lifetime = attributeValues[0];
                     TypedConstant serviceInterface = attributeValues[1];
 
-                    string interfaceName, interfacePath;
-                    TryFindInterfaceData(generatorContext, serviceInterface, out interfaceName, out interfacePath);
+                    InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
 
-                    return new Target((string)lifetime.Value, symbol.Name, symbol.ContainingNamespace.ToDisplayString(), interfaceName, interfacePath);
+                    return new Target((string)lifetime.Value, symbol.Name, symbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
                 }
             }
             return Target.Invalid;
@@ -96,53 +92,5 @@ namespace AutoServiceRegistry
         {
             return Target.Invalid;
         }
-    }
-
-    private static bool TryFindInterfaceData(GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface, out string interfaceName, out string interfacePath)
-    {
-        interfaceName = string.Empty;
-        interfacePath = string.Empty;
-
-        if (string.IsNullOrEmpty((string)serviceInterface.Value) is false)
-        {
-            interfaceName = (string)serviceInterface.Value;
-
-            INamedTypeSymbol @interface = FindInterfaceInNamespace(generatorContext.SemanticModel.Compilation.GlobalNamespace, interfaceName);
-
-            interfacePath = @interface.ContainingNamespace.ToDisplayString();
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private static INamedTypeSymbol FindInterfaceInNamespace(INamespaceSymbol namespaceSymbol, string interfaceName)
-    {
-        foreach (var member in namespaceSymbol.GetMembers())
-        {
-            if (member is INamespaceSymbol nestedNamespace)
-            {
-                INamedTypeSymbol result = FindInterfaceInNamespace(nestedNamespace, interfaceName);
-                if (result is not null)
-                {
-                    return result;
-                }
-            }
-            else if (member is INamedTypeSymbol typeSymbol && typeSymbol.TypeKind == TypeKind.Interface && typeSymbol.Name == interfaceName)
-            {
-                return typeSymbol;
-            }
-        }
-
-        return default;
-    }
-
-    private static string BuildServiceDescriptor(Target target)
-    {
-        string s_interface = string.IsNullOrEmpty(target.ServiceInterface) ? target.ServiceName : target.ServiceInterface;
-        string s_interfacePath = string.IsNullOrEmpty(target.ServiceInterfacePath) ? target.ServicePath : target.ServiceInterfacePath;
-
-        return $"\t\t\tservices.Add(new ServiceDescriptor(typeof({s_interfacePath}.{s_interface}), typeof({target.ServicePath}.{target.ServiceName}), ServiceLifetime.{target.Lifetime}));";
     }
 }

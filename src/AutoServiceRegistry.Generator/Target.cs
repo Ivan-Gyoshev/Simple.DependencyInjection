@@ -39,4 +39,8 @@ internal sealed record Target
     internal string ServiceInterfacePath { get; private set; }
 
     internal static Target Invalid = new Target();
+
+    internal bool IsValid => string.IsNullOrEmpty(Lifetime) is false
+        && string.IsNullOrEmpty(ServiceName) is false
+        && string.IsNullOrEmpty(ServicePath) is false;
 }
