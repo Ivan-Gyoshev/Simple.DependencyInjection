@@ -11,21 +11,37 @@
 		<Description>Source generator based registration of services inside the IoC container.</Description>
 		<OutputType>Library</OutputType>
 		<Authors>Ivan Gyoshev</Authors>
+		<Owners>Ivan Gyoshev</Owners>
 		<PackageTags>C#,ASP.NET Core, Worker Service, Dependency Injection</PackageTags>
 		<RepositoryUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</PackageProjectUrl>
 		<IsPackable>true</IsPackable>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Resources\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\AutoServiceRegistry.Generator\bin\$(Configuration)\netstandard2.0\AutoServiceRegistry.Generator.dll"
-			  Pack="true"
-			  PackagePath="analyzers/dotnet/cs"
-			  Visible="false" />
+		<None Include="..\..\README.md" Link="Resources\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\AutoServiceRegistry.Generator\bin\$(Configuration)\netstandard2.0\AutoServiceRegistry.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 </Project>
