@@ -23,7 +23,7 @@ dotnet add package AutoServiceRegistry
 ```
 Or via the NuGet Package Manager in Visual Studio.
 
-![Nuget-Image](/src/AutoServiceRegistry/Resources/preview.png)
+![Nuget-Image](/assets/preview.png)
 
 ### Code example
 For the code example we are going to use a simple Worker Service.

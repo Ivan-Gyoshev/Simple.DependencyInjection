@@ -68,29 +68,36 @@ namespace AutoServiceRegistry
         try
         {
             ClassDeclarationSyntax syntax = (ClassDeclarationSyntax)generatorContext.Node;
-            ISymbol symbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
+            ISymbol classSymbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
 
-            if (symbol.IsAbstract is false)
+            if (classSymbol.IsAbstract is false)
             {
-                AttributeData attribute = symbol.GetAttributes().Where(atr => atr.AttributeClass.Name.Equals(_attributeName)).SingleOrDefault();
+                AttributeData attribute = GetClassAttribute(classSymbol);
 
-                if (attribute is not null)
-                {
-                    ImmutableArray<TypedConstant> attributeValues = attribute.ConstructorArguments;
-                    TypedConstant lifetime = attributeValues[0];
-                    TypedConstant serviceInterface = attributeValues[1];
+                if (attribute is null)
+                    return Target.Invalid;
 
-                    InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
+                ImmutableArray<TypedConstant> attributeValues = attribute.ConstructorArguments;
+                TypedConstant lifetime = attributeValues[0];
+                TypedConstant serviceInterface = attributeValues[1];
 
-                    return new Target((string)lifetime.Value, symbol.Name, symbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
-                }
+                InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
+
+                return new Target((string)lifetime.Value, classSymbol.Name, classSymbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
             }
             return Target.Invalid;
 
         }
-        catch (Exception)
+        catch
         {
             return Target.Invalid;
         }
+    }
+
+    private static AttributeData GetClassAttribute(ISymbol symbol)
+    {
+        return symbol.GetAttributes()
+                .Where(atr => atr.AttributeClass.Name.Equals(_attributeName))
+                .SingleOrDefault();
     }
 }

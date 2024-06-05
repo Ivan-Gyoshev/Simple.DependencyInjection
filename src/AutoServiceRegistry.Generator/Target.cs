@@ -1,5 +1,8 @@
 ﻿namespace AutoServiceRegistry.Generator;
 
+/// <summary>
+/// Registry target
+/// </summary>
 internal sealed record Target
 {
     Target() { }

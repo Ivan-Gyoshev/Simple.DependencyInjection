@@ -18,15 +18,15 @@ internal sealed class DiagnosticLogger : ILogger
 
     public void LogError(string message)
     {
-        var descriptor = new DiagnosticDescriptor(
+        DiagnosticDescriptor descriptor = new DiagnosticDescriptor(
             id: "SG0002",
             title: "Source Generator Error",
             messageFormat: message,
-            category: "SourceGenerator",
+            category: "AutoRegistrySourceGenerator",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
-        var diagnostic = Diagnostic.Create(descriptor, Location.None);
+        Diagnostic diagnostic = Diagnostic.Create(descriptor, Location.None);
         _context.ReportDiagnostic(diagnostic);
     }
 }
