@@ -82,6 +82,7 @@ Follows the <b>ServiceLifetime</b> enum that comes from the [Microsoft DI packag
 
 ## License
 
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 
 ## Afterword 
 By automating service registration, <b>AutoServiceRegistry</b> streamlines the development process, ensuring clean, and readable code. Embrace the power of source generators and simplify your dependency injection setup.
