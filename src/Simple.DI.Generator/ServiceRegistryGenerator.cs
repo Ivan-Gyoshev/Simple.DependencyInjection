@@ -4,12 +4,12 @@ using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace AutoServiceRegistry.Generator;
+namespace Simple.DI.Generator;
 
 [Generator]
 public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 {
-    private const string _attributeName = "ServiceRegistrationAttribute";
+    private const string _attributeName = "ServiceAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -35,11 +35,11 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AutoServiceRegistry
+namespace Simple.DI
 {{
     public static class ServiceRegistrator
     {{
-        public static IServiceCollection UseAutoServiceRegistration(this IServiceCollection services)
+        public static IServiceCollection RegisterResolvableServices(this IServiceCollection services)
         {{
 ");
             foreach (Target target in args)
@@ -54,7 +54,7 @@ namespace AutoServiceRegistry
 }}");
 
             string registry = registryBuilder.ToString();
-            context.AddSource("AutoServiceRegistry.g.cs", SourceText.From(registry, Encoding.UTF8));
+            context.AddSource("ServiceRegistry.g.cs", SourceText.From(registry, Encoding.UTF8));
         }
         catch (Exception ex)
         {
@@ -70,23 +70,19 @@ namespace AutoServiceRegistry
             ClassDeclarationSyntax syntax = (ClassDeclarationSyntax)generatorContext.Node;
             ISymbol classSymbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
 
-            if (classSymbol.IsAbstract is false)
-            {
-                AttributeData attribute = GetClassAttribute(classSymbol);
+            if (classSymbol.IsAbstract)
+                return Target.Invalid;
 
-                if (attribute is null)
-                    return Target.Invalid;
+            AttributeData attribute = GetClassAttribute(classSymbol);
+            if (attribute is null)
+                return Target.Invalid;
 
-                ImmutableArray<TypedConstant> attributeValues = attribute.ConstructorArguments;
-                TypedConstant lifetime = attributeValues[0];
-                TypedConstant serviceInterface = attributeValues[1];
+            TypedConstant lifetime = attribute.ConstructorArguments[0];
+            TypedConstant serviceInterface = attribute.ConstructorArguments[1];
 
-                InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
+            InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
 
-                return new Target((string)lifetime.Value, classSymbol.Name, classSymbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
-            }
-            return Target.Invalid;
-
+            return new Target((string)lifetime.Value, classSymbol.Name, classSymbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
         }
         catch
         {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace AutoServiceRegistry.Generator;
+namespace Simple.DI.Generator;
 
 internal interface ILogger
 {

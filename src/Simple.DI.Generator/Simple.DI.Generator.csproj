@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="bin\Debug\netstandard2.0\\AutoServiceRegistry.Generator.dll" />
+		<None Remove="bin\Debug\netstandard2.0\\Simple.DI.Generator.dll" />
 	</ItemGroup>
 
 	<ItemGroup>

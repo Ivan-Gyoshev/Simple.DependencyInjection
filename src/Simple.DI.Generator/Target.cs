@@ -1,4 +1,4 @@
-﻿namespace AutoServiceRegistry.Generator;
+﻿namespace Simple.DI.Generator;
 
 /// <summary>
 /// Registry target

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using AutoServiceRegistry.Tests.Fakes;
+using Simple.DI.Tests.Fakes;
 
-namespace AutoServiceRegistry.Tests;
+namespace Simple.DI.Tests;
 
 public class RegistryTests
 {
@@ -9,7 +9,7 @@ public class RegistryTests
     public void ShouldContainRegisteredService()
     {
         IServiceCollection services = new ServiceCollection();
-        services.UseAutoServiceRegistration();
+        services.RegisterResolvableServices();
 
         DefaultServiceProviderFactory serviceProviderFactory = new DefaultServiceProviderFactory();
         IServiceCollection builder = serviceProviderFactory.CreateBuilder(services);

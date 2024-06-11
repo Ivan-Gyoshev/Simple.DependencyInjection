@@ -1,23 +1,23 @@
-﻿using AutoServiceRegistry.Tests.Contracts;
+﻿using Simple.DI.Tests.Contracts;
 
-namespace AutoServiceRegistry.Tests.Fakes;
+namespace Simple.DI.Tests.Fakes;
 
-[ServiceRegistration(Lifetime.Transient)]
+[Service(Lifetime.Transient)]
 public class TransientAttributeTarget
 {
 }
 
-[ServiceRegistration(Lifetime.Scoped)]
+[Service(Lifetime.Scoped)]
 public class ScopedAttributeTarget
 {
 }
 
-[ServiceRegistration(Lifetime.Singleton)]
+[Service(Lifetime.Singleton)]
 public class SingletonAttributeTarget
 {
 }
 
-[ServiceRegistration(Lifetime.Transient, nameof(ITransientTarget))]
+[Service(Lifetime.Transient, nameof(ITransientTarget))]
 public class TransientAttributeTargetImplementation : ITransientTarget
 {
     public bool ReturnTrue()
@@ -26,7 +26,7 @@ public class TransientAttributeTargetImplementation : ITransientTarget
     }
 }
 
-[ServiceRegistration(Lifetime.Scoped, nameof(IScopedTarget))]
+[Service(Lifetime.Scoped, nameof(IScopedTarget))]
 public class ScopedAttributeTargetImplementation : IScopedTarget
 {
     public bool ReturnTrue()
@@ -35,7 +35,7 @@ public class ScopedAttributeTargetImplementation : IScopedTarget
     }
 }
 
-[ServiceRegistration(Lifetime.Singleton, nameof(ISingletonTarget))]
+[Service(Lifetime.Singleton, nameof(ISingletonTarget))]
 public class SingletonAttributeTargetImplementation : ISingletonTarget
 {
     public bool ReturnTrue()

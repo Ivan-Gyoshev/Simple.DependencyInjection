@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 
-namespace AutoServiceRegistry.Generator;
+namespace Simple.DI.Generator;
 
 /// <summary>
 /// Extensions methods used inside the <see cref="ServiceRegistryGenerator"/>.

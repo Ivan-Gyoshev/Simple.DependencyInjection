@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\AutoServiceRegistry.Tests\\AutoServiceRegistry.Tests.csproj"
+      "targetProject": "..\\Simple.DI.Tests\\Simple.DI.Tests.csproj"
     }
   }
 }

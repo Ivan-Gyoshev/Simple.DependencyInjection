@@ -1,15 +1,15 @@
 # AutoServiceRegistry
 
-AutoServiceRegistry is tool powered by the dotnet [Source Generator](doc:https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview), designed to automate the registration of services into the Inversion of Control (IoC) container in .NET applications. This tool significantly simplifies dependency injection setup, reducing boilerplate code and enhancing maintainability and readability.
+AutoServiceRegistry is a tool powered by the .NET [Source Generator](doc:https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview), designed to automate the registration of services into the Inversion of Control (IoC) container in .NET applications. This tool significantly simplifies dependency injection setup, reducing boilerplate code and enhancing maintainability and readability.
 
-Useful part of this tool is that you can easily understand how each service in your application is registered by just looking at the attribute of the given service.
+The useful part of this tool is that you can easily understand how each service in your application is registered by just looking at the attribute of the given service.
 
-The registration code is not hidden, so you don't need to worry how it is happening. It is just auto-generated and placed in appropriate file which you can access anytime.
+The registration code is not hidden, so you don't need to worry about how it is happening. It is just auto-generated and placed in an appropriate file which you can access at any time.
 
 ## Features
 - <b>Automatic Service Registration</b>: Automatically scans for service classes and interfaces, registering them inside the IoC container.
 
-- <b>Customizable Scoping</b>: Allows configuration of service lifetimes (transient, scoped, singleton) through attributes or conventions.
+- <b>Customizable Scoping</b>: Allows configuration of service lifetimes (transient, scoped, singleton) through attributes.
 
 - <b>Performance Optimization</b>: Leverages source generation for compile-time registration, ensuring minimal runtime overhead.
 
