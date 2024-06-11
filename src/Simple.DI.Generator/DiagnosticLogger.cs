@@ -22,7 +22,7 @@ internal sealed class DiagnosticLogger : ILogger
             id: "SG0002",
             title: "Source Generator Error",
             messageFormat: message,
-            category: "AutoRegistrySourceGenerator",
+            category: "Simple.DI.Generator",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
