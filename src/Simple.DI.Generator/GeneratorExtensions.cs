@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
+using Simple.DI.Generator.Models;
 
 namespace Simple.DI.Generator;
 
@@ -24,37 +25,43 @@ internal static class GeneratorExtensions
     /// <param name="generatorContext"></param>
     /// <param name="serviceInterface"></param>
     /// <returns></returns>
-    internal static InterfaceData FindInterfaceData(this GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface)
+    internal static ParentInterfaceData FindInterfaceData(this GeneratorSyntaxContext generatorContext, TypedConstant serviceInterface)
     {
-        if (string.IsNullOrEmpty((string)serviceInterface.Value) is false)
-        {
-            string interfaceName = (string)serviceInterface.Value;
+        string interfaceName = (string)serviceInterface.Value;
 
+        if (string.IsNullOrEmpty(interfaceName) is false)
+        {
             INamespaceSymbol globalNamespace = generatorContext.SemanticModel.Compilation.GlobalNamespace;
             INamedTypeSymbol namespaceLocation = globalNamespace.ScanGlobalNamespaceFor(interfaceName);
 
-            return new InterfaceData(interfaceName, namespaceLocation.ContainingNamespace.ToDisplayString());
+            return new ParentInterfaceData(interfaceName, namespaceLocation.ContainingNamespace.ToDisplayString());
         }
 
-        return InterfaceData.None;
+        return ParentInterfaceData.None;
     }
 
     /// <summary>
     /// Builds the string for the generator that is going to be used as the <b>ServiceDescriptor</b> of the registration.
     /// </summary>
-    /// <param name="target"></param>
+    /// <param name="service"></param>
     /// <returns></returns>
-    internal static string TransformToServiceDescriptor(this Target target)
+    internal static string TransformToServiceDescriptor(this Service service)
     {
-        string s_interface = string.IsNullOrEmpty(target.ServiceInterface)
-            ? target.ServiceName
-            : target.ServiceInterface;
+        string serviceType = string.IsNullOrEmpty(service.ParentInterface)
+            ? service.Name
+            : service.ParentInterface;
 
-        string s_interfacePath = string.IsNullOrEmpty(target.ServiceInterfacePath)
-            ? target.ServicePath
-            : target.ServiceInterfacePath;
+        string serviceTypePath = string.IsNullOrEmpty(service.ParentInterfacePath)
+            ? service.Path
+            : service.ParentInterfacePath;
 
-        return $"\t\t\tservices.Add(new ServiceDescriptor(typeof({s_interfacePath}.{s_interface}), typeof({target.ServicePath}.{target.ServiceName}), ServiceLifetime.{target.Lifetime}));";
+
+        return service.Type switch
+        {
+            ServiceType.Regular => $"\t\t\tservices.Add(new ServiceDescriptor(typeof({serviceTypePath}.{serviceType}), typeof({service.Path}.{service.Name}), ServiceLifetime.{service.Lifetime}));",
+            ServiceType.OpenGeneric => $"\t\t\tservices.Add(new ServiceDescriptor(typeof({serviceTypePath}.{serviceType}<>), typeof({service.Path}.{service.Name}<>), ServiceLifetime.{service.Lifetime}));",
+            _ => string.Empty
+        };
     }
 
     /// <summary>
@@ -63,8 +70,8 @@ internal static class GeneratorExtensions
     /// <param name="namespaceSymbol"></param>
     /// <param name="interfaceName"></param>
     /// <returns> 
-    /// If found, returns <see cref="InterfaceData"/>.
-    /// If none are found, returns <see cref="InterfaceData.None"/>
+    /// If found, returns <see cref="ParentInterfaceData"/>.
+    /// If none are found, returns <see cref="ParentInterfaceData.None"/>
     /// </returns>
     private static INamedTypeSymbol ScanGlobalNamespaceFor(this INamespaceSymbol namespaceSymbol, string interfaceName)
     {

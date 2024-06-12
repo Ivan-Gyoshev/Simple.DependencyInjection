@@ -43,3 +43,15 @@ public class SingletonAttributeTargetImplementation : ISingletonTarget
         return true;
     }
 }
+
+[OpenGenericService(Lifetime.Singleton, nameof(IRepository<T>))]
+public class Repository<T> : IRepository<T>
+    where T : class, new()
+{
+    public T Get() => new T();
+}
+
+public class User
+{
+
+}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Simple.DI.Generator.Models;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -9,11 +10,9 @@ namespace Simple.DI.Generator;
 [Generator]
 public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 {
-    private const string _attributeName = "ServiceAttribute";
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValuesProvider<Target> services = context.SyntaxProvider.CreateSyntaxProvider
+        IncrementalValuesProvider<Service> services = context.SyntaxProvider.CreateSyntaxProvider
            (
             predicate: static (syntaxNode, _) => syntaxNode.IsClassDeclaration(),
             transform: (generatorContext, cn) => GetTarget(generatorContext, cn)
@@ -22,7 +21,7 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(services.Collect(), Execute);
     }
 
-    private void Execute(SourceProductionContext context, ImmutableArray<Target> args)
+    private void Execute(SourceProductionContext context, ImmutableArray<Service> args)
     {
         try
         {
@@ -42,7 +41,7 @@ namespace Simple.DI
         public static IServiceCollection RegisterResolvableServices(this IServiceCollection services)
         {{
 ");
-            foreach (Target target in args)
+            foreach (Service target in args.OrderBy(x => x.Lifetime))
             {
                 registryBuilder.AppendLine(target.TransformToServiceDescriptor());
             }
@@ -63,7 +62,7 @@ namespace Simple.DI
         }
     }
 
-    private static Target GetTarget(GeneratorSyntaxContext generatorContext, CancellationToken token)
+    private static Service GetTarget(GeneratorSyntaxContext generatorContext, CancellationToken token)
     {
         try
         {
@@ -71,29 +70,41 @@ namespace Simple.DI
             ISymbol classSymbol = generatorContext.SemanticModel.GetDeclaredSymbol(syntax, token);
 
             if (classSymbol.IsAbstract)
-                return Target.Invalid;
+                return Service.Invalid;
 
-            AttributeData attribute = GetClassAttribute(classSymbol);
+            AttributeData attribute = GetAttributeData(classSymbol);
             if (attribute is null)
-                return Target.Invalid;
+                return Service.Invalid;
 
             TypedConstant lifetime = attribute.ConstructorArguments[0];
             TypedConstant serviceInterface = attribute.ConstructorArguments[1];
 
-            InterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
+            ParentInterfaceData interfaceData = generatorContext.FindInterfaceData(serviceInterface);
+            ServiceType type = ResolveType(attribute.AttributeClass.Name);
 
-            return new Target((string)lifetime.Value, classSymbol.Name, classSymbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace);
+            if (type == ServiceType.Invalid)
+                return Service.Invalid;
+
+            return new Service((string)lifetime.Value, classSymbol.Name, classSymbol.ContainingNamespace.ToDisplayString(), interfaceData.Name, interfaceData.ContainingNamespace, type);
         }
         catch
         {
-            return Target.Invalid;
+            return Service.Invalid;
         }
     }
 
-    private static AttributeData GetClassAttribute(ISymbol symbol)
+    private static AttributeData GetAttributeData(ISymbol symbol)
     {
         return symbol.GetAttributes()
-                .Where(atr => atr.AttributeClass.Name.Equals(_attributeName))
+                .Where(atr => atr.AttributeClass.Name.Equals(GeneratorConstants.ServiceAttribute) ||
+                              atr.AttributeClass.Name.Equals(GeneratorConstants.OpenGenericServiceAttribute))
                 .SingleOrDefault();
     }
+
+    private static ServiceType ResolveType(string attributeName) => attributeName switch
+    {
+        GeneratorConstants.ServiceAttribute => ServiceType.Regular,
+        GeneratorConstants.OpenGenericServiceAttribute => ServiceType.OpenGeneric,
+        _ => ServiceType.Invalid
+    };
 }

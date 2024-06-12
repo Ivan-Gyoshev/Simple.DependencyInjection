@@ -81,6 +81,17 @@ For the code example we are going to use a simple Worker Service.
     }   
     ```
 
+- Open Generic registration
+    ``` csharp
+    [OpenGenericService(Lifetime.Singleton, nameof(IRepository<T>))]
+    public class Repository<T> : IRepository<T>
+        where T : class, new()
+    {
+        public T Get() => new T();
+    }
+    ```
+
+
 - As a result the following file is created:
 
     ``` csharp
@@ -95,8 +106,10 @@ For the code example we are going to use a simple Worker Service.
         {
             public static IServiceCollection RegisterResolvableServices(this IServiceCollection services)
             {
-    			services.Add(new ServiceDescriptor(typeof(Demo.ScopedAttributeTarget), typeof(Demo.ScopedAttributeTarget), ServiceLifetime.Scoped));
-    			services.Add(new ServiceDescriptor(typeof(Contracts.ITransientTarget), typeof(Demo.TransientAttributeTarget), ServiceLifetime.Transient));
+                services.Add(new ServiceDescriptor(typeof(Demo.ScopedAttributeTarget), typeof(Demo.ScopedAttributeTarget), ServiceLifetime.Scoped));
+                services.Add(new ServiceDescriptor(typeof(Contracts.ITransientTarget), typeof(Demo.TransientAttributeTarget), ServiceLifetime.Transient));
+
+                services.Add(new ServiceDescriptor(typeof(Contracts.IRepository<>), typeof(Demo.Repository<>), ServiceLifetime.Singleton));
 
                 return services;
             }

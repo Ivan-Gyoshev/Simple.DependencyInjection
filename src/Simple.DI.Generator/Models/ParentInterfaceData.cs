@@ -1,11 +1,11 @@
-﻿namespace Simple.DI.Generator;
+﻿namespace Simple.DI.Generator.Models;
 
 /// <summary>
 /// Contains interface meta data
 /// </summary>
-internal sealed record InterfaceData
+internal sealed record ParentInterfaceData
 {
-    internal InterfaceData(string name, string containingNamespace)
+    internal ParentInterfaceData(string name, string containingNamespace)
     {
         Name = name;
         ContainingNamespace = containingNamespace;
@@ -21,7 +21,7 @@ internal sealed record InterfaceData
     /// </summary>
     internal string ContainingNamespace { get; private set; }
 
-    internal static InterfaceData None = new InterfaceData(string.Empty, string.Empty);
+    internal static ParentInterfaceData None = new ParentInterfaceData(string.Empty, string.Empty);
 
     internal bool IsEmtpy => string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ContainingNamespace);
 }

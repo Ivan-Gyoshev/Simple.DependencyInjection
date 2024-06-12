@@ -1,4 +1,3 @@
-using Simple.DI;
 using Simple.DI.Tests.Contracts;
 using Simple.DI.Tests.Fakes;
 using System.Reflection;
@@ -47,10 +46,10 @@ public class AttributeTests
         ServiceAttribute? target = atr.First() as ServiceAttribute;
 
         bool hasCorrectLifetime = target!.Lifetime.Equals(nameof(Lifetime.Singleton), StringComparison.Ordinal);
-        bool hasCorrectImplementation = target!.Interface.Equals(nameof(ISingletonTarget), StringComparison.Ordinal);
+        bool hasCorrectInterface = target!.Interface.Equals(nameof(ISingletonTarget), StringComparison.Ordinal);
 
         Assert.True(hasCorrectLifetime);
-        Assert.True(hasCorrectImplementation);
+        Assert.True(hasCorrectInterface);
     }
 
     [Fact]
@@ -60,10 +59,10 @@ public class AttributeTests
         ServiceAttribute? target = atr.First() as ServiceAttribute;
 
         bool hasCorrectLifetime = target!.Lifetime.Equals(nameof(Lifetime.Scoped), StringComparison.Ordinal);
-        bool hasCorrectImplementation = target!.Interface.Equals(nameof(IScopedTarget), StringComparison.Ordinal);
+        bool hasCorrectInterface = target!.Interface.Equals(nameof(IScopedTarget), StringComparison.Ordinal);
 
         Assert.True(hasCorrectLifetime);
-        Assert.True(hasCorrectImplementation);
+        Assert.True(hasCorrectInterface);
     }
 
     [Fact]
@@ -73,9 +72,22 @@ public class AttributeTests
         ServiceAttribute? target = atr.First() as ServiceAttribute;
 
         bool hasCorrectLifetime = target!.Lifetime.Equals(nameof(Lifetime.Transient), StringComparison.Ordinal);
-        bool hasCorrectImplementation = target!.Interface.Equals(nameof(ITransientTarget), StringComparison.Ordinal);
+        bool hasCorrectInterface = target!.Interface.Equals(nameof(ITransientTarget), StringComparison.Ordinal);
 
         Assert.True(hasCorrectLifetime);
-        Assert.True(hasCorrectImplementation);
+        Assert.True(hasCorrectInterface);
+    }
+
+    [Fact]
+    public void TestOpenGenericAttributeUsage()
+    {
+        IEnumerable<Attribute> atr = typeof(Repository<User>).GetCustomAttributes();
+        OpenGenericServiceAttribute? target = atr.Where(x => x.GetType().Equals(typeof(OpenGenericServiceAttribute))).Single() as OpenGenericServiceAttribute;
+
+        bool hasCorrectLifetime = target!.Lifetime.Equals(nameof(Lifetime.Singleton), StringComparison.Ordinal);
+        bool hasCorrectInterface = target!.Interface.Equals(nameof(IRepository<User>), StringComparison.Ordinal);
+
+        Assert.True(hasCorrectLifetime);
+        Assert.True(hasCorrectInterface);
     }
 }
