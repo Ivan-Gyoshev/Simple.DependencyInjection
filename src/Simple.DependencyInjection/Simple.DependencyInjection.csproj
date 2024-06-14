@@ -10,6 +10,9 @@
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<OutputType>Library</OutputType>
 
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+
 		<Title>Simple.DependencyInjection</Title>
 		<Description>Source generator-based registration of services inside the IoC container.</Description>
 		<PackageTags>C#,ASP.NET Core, Worker Service, Dependency Injection</PackageTags>
@@ -43,7 +46,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\..\assets\preview.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
