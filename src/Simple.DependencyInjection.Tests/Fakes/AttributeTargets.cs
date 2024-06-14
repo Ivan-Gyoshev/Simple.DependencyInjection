@@ -1,6 +1,7 @@
-﻿using Simple.DI.Tests.Contracts;
+﻿using Simple.DependencyInjection;
+using Simple.DependencyInjection.Tests.Contracts;
 
-namespace Simple.DI.Tests.Fakes;
+namespace Simple.DependencyInjection.Tests.Fakes;
 
 [Service(Lifetime.Transient)]
 public class TransientAttributeTarget

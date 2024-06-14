@@ -1,16 +1,16 @@
-﻿namespace Simple.DI;
+﻿namespace Simple.DependencyInjection;
 
 /// <summary>
-///     Specifies how an open generic service would be registered inside the IoC container.
+///     Specifies how a service would be registered inside the IoC container.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public sealed class OpenGenericServiceAttribute : Attribute
+public sealed class ServiceAttribute : Attribute
 {
     private readonly string _lifetime;
     private readonly string _interface;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="OpenGenericServiceAttribute"/> class.
+    ///     Initializes a new instance of the <see cref="ServiceAttribute"/> class.
     /// </summary>
     /// <param name="serviceLifetime">
     ///     Value that indicates the lifetime of the service that is going to be registered.
@@ -18,7 +18,7 @@ public sealed class OpenGenericServiceAttribute : Attribute
     /// <param name="implementationOf">
     ///     Value that points to the interface that the service is implementing
     /// </param>
-    public OpenGenericServiceAttribute(string serviceLifetime, string implementationOf = "")
+    public ServiceAttribute(string serviceLifetime, string implementationOf = "")
     {
         _lifetime = serviceLifetime;
         _interface = implementationOf;

@@ -1,11 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using Simple.DI.Generator.Models;
+using Simple.DependencyInjection.Generator.Models;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace Simple.DI.Generator;
+namespace Simple.DependencyInjection.Generator;
 
 [Generator]
 public sealed class ServiceRegistryGenerator : IIncrementalGenerator
@@ -34,7 +34,7 @@ public sealed class ServiceRegistryGenerator : IIncrementalGenerator
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Simple.DI
+namespace Simple.DependencyInjection
 {{
     public static class ServiceRegistrator
     {{

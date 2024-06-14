@@ -1,6 +1,6 @@
-# Simple.DI
+# Simple.DependencyInjection
 
-<b>Simple.DI</b> is a tool powered by the .NET [Source Generator](doc:https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview). It is designed to automate the registration of services into the Inversion of Control (IoC) container in .NET applications. This tool significantly simplifies dependency injection setup, reducing boilerplate code and enhancing maintainability and readability.
+<b>Simple.DependencyInjection</b> is a tool powered by the .NET [Source Generator](doc:https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview). It is designed to automate the registration of services into the Inversion of Control (IoC) container in .NET applications. This tool significantly simplifies dependency injection setup, reducing boilerplate code and enhancing maintainability and readability.
 
 The useful part of this tool is that you can easily understand how each service in your application is registered by just looking at the attribute located right inside the given service.
 
@@ -16,12 +16,12 @@ The registration code is not hidden, so you don't need to worry about how it is 
 ## Usage
 ### Installation
 
-Add the Simple.DI package to your project using the .NET CLI:
+Add the Simple.DependencyInjection package to your project using the .NET CLI:
 
 ``` sh
-dotnet add package Simple.DI
+dotnet add package Simple.DependencyInjection
 ```
-Or via the NuGet Package Manager in Visual Studio.
+Or via the NuGet Package Manager in Visual StuDependencyInjectiono.
 
 ![Nuget-Image](/assets/preview.png)
 
@@ -32,7 +32,7 @@ For the code example we are going to use a simple Worker Service.
 
     #### Program.cs
     ``` csharp
-    using Simple.DI;
+    using Simple.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
@@ -100,7 +100,7 @@ For the code example we are going to use a simple Worker Service.
 
     using Microsoft.Extensions.DependencyInjection;
 
-    namespace Simple.DI
+    namespace Simple.DependencyInjection
     {
         public static class ServiceRegistrator
         {
@@ -118,7 +118,7 @@ For the code example we are going to use a simple Worker Service.
     ```
 
 #### Lifetime object
-Follows the <b>ServiceLifetime</b> enum that comes from the [Microsoft DI package](doc:https://github.com/dotnet/runtime/blob/main/src/libraries/Microsoft.Extensions.DependencyInjection/README.md)
+Follows the <b>ServiceLifetime</b> enum that comes from the [Microsoft DependencyInjection package](doc:https://github.com/dotnet/runtime/blob/main/src/libraries/Microsoft.Extensions.DependencyInjection/README.md)
 
 - Lifetime.Transient
 - Lifetime.Scoped
@@ -129,4 +129,4 @@ Follows the <b>ServiceLifetime</b> enum that comes from the [Microsoft DI packag
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 
 ## Afterword 
-By automating service registration, <b>Simple.DI</b> streamlines the development process, ensuring clean, and readable code. Embrace the power of source generators and simplify your dependency injection setup.
+By automating service registration, <b>Simple.DependencyInjection</b> streamlines the development process, ensuring clean, and readable code. Embrace the power of source generators and simplify your dependency injection setup.

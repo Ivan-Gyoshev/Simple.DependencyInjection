@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace Simple.DI.Generator;
+namespace Simple.DependencyInjection.Generator;
 
 internal interface ILogger
 {
@@ -22,7 +22,7 @@ internal sealed class DiagnosticLogger : ILogger
             id: "SG0002",
             title: "Source Generator Error",
             messageFormat: message,
-            category: "Simple.DI.Generator",
+            category: "Simple.DependencyInjection.Generator",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 

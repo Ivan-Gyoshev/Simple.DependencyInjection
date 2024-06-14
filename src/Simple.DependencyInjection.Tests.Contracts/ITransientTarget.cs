@@ -1,4 +1,4 @@
-﻿namespace Simple.DI.Tests.Contracts;
+﻿namespace Simple.DependencyInjection.Tests.Contracts;
 
 public interface ITransientTarget
 {

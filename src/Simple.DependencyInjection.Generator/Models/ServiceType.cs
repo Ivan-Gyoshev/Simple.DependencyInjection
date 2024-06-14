@@ -1,4 +1,4 @@
-﻿namespace Simple.DI.Generator.Models;
+﻿namespace Simple.DependencyInjection.Generator.Models;
 
 /// <summary>
 ///     Defines different types of registered services.

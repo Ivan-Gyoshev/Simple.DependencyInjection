@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Simple.DI;
+namespace Simple.DependencyInjection;
 
 /// <summary>
 /// Represents the service lifetime that will be used when registering

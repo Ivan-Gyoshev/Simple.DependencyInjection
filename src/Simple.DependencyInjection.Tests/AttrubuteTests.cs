@@ -1,8 +1,9 @@
-using Simple.DI.Tests.Contracts;
-using Simple.DI.Tests.Fakes;
+using Simple.DependencyInjection;
+using Simple.DependencyInjection.Tests.Contracts;
+using Simple.DependencyInjection.Tests.Fakes;
 using System.Reflection;
 
-namespace Simple.DI.Tests;
+namespace Simple.DependencyInjection.Tests;
 
 public class AttributeTests
 {

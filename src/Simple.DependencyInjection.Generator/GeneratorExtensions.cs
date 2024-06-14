@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
-using Simple.DI.Generator.Models;
+using Simple.DependencyInjection.Generator.Models;
 
-namespace Simple.DI.Generator;
+namespace Simple.DependencyInjection.Generator;
 
 /// <summary>
 /// Extensions methods used inside the <see cref="ServiceRegistryGenerator"/>.

@@ -18,9 +18,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Simple.DI.Tests.Contracts\Simple.DI.Tests.Contracts.csproj" />
-		<ProjectReference Include="..\Simple.DI\Simple.DI.csproj" />
-		<ProjectReference Include="..\Simple.DI.Generator\Simple.DI.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+		<ProjectReference Include="..\Simple.DependencyInjection.Tests.Contracts\Simple.DependencyInjection.Tests.Contracts.csproj" />
+		<ProjectReference Include="..\Simple.DependencyInjection\Simple.DependencyInjection.csproj" />
+		<ProjectReference Include="..\Simple.DependencyInjection.Generator\Simple.DependencyInjection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	</ItemGroup>
 
 	<ItemGroup>

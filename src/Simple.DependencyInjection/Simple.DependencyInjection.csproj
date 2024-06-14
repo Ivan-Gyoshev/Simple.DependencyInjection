@@ -10,13 +10,13 @@
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<OutputType>Library</OutputType>
 
-		<Title>Simple.DI</Title>
+		<Title>Simple.DependencyInjection</Title>
 		<Description>Source generator-based registration of services inside the IoC container.</Description>
 		<PackageTags>C#,ASP.NET Core, Worker Service, Dependency Injection</PackageTags>
 		<Authors>Ivan Gyoshev</Authors>
 
-		<RepositoryUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/Ivan-Gyoshev/auto-service-registry</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Ivan-Gyoshev/Simple.DependencyInjection</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Ivan-Gyoshev/Simple.DependencyInjection</PackageProjectUrl>
 
 		<IsPackable>true</IsPackable>
 		<PackageIcon>icon.png</PackageIcon>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\Simple.DI.Generator\bin\$(Configuration)\netstandard2.0\Simple.DI.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+		<None Include="..\Simple.DependencyInjection.Generator\bin\$(Configuration)\netstandard2.0\Simple.DependencyInjection.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>

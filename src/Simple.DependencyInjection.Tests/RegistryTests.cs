@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Simple.DI.Tests.Contracts;
-using Simple.DI.Tests.Fakes;
+using Simple.DependencyInjection.Tests.Contracts;
+using Simple.DependencyInjection.Tests.Fakes;
 
-namespace Simple.DI.Tests;
+namespace Simple.DependencyInjection.Tests;
 
 public class RegistryTests
 {
